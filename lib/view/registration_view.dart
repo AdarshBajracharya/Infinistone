@@ -7,29 +7,52 @@ class RegistrationView extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
+    TextEditingController confirmPasswordController = TextEditingController();
     TextEditingController nameController = TextEditingController();
     TextEditingController phoneController = TextEditingController();
     TextEditingController addressController = TextEditingController();
     TextEditingController ageController = TextEditingController();
-    TextEditingController confirmPasswordController = TextEditingController();
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("Register"),
+        backgroundColor: Colors.white,
+        elevation: 0,
         centerTitle: true,
+        title: const Text(
+          "Create Account",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              const SizedBox(height: 30),
               TextField(
                 controller: nameController,
                 decoration: const InputDecoration(
                   labelText: "Full Name",
-                  prefixIcon: Icon(Icons.person),
+                  labelStyle: TextStyle(color: Colors.black54),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black12),
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  prefixIcon: Icon(Icons.person, color: Colors.black45),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 ),
                 keyboardType: TextInputType.name,
               ),
@@ -38,7 +61,18 @@ class RegistrationView extends StatelessWidget {
                 controller: emailController,
                 decoration: const InputDecoration(
                   labelText: "Email",
-                  prefixIcon: Icon(Icons.email),
+                  labelStyle: TextStyle(color: Colors.black54),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black12),
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  prefixIcon: Icon(Icons.email, color: Colors.black45),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 ),
                 keyboardType: TextInputType.emailAddress,
               ),
@@ -47,7 +81,18 @@ class RegistrationView extends StatelessWidget {
                 controller: phoneController,
                 decoration: const InputDecoration(
                   labelText: "Phone Number",
-                  prefixIcon: Icon(Icons.phone),
+                  labelStyle: TextStyle(color: Colors.black54),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black12),
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  prefixIcon: Icon(Icons.phone, color: Colors.black45),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 ),
                 keyboardType: TextInputType.phone,
               ),
@@ -56,7 +101,18 @@ class RegistrationView extends StatelessWidget {
                 controller: addressController,
                 decoration: const InputDecoration(
                   labelText: "Address",
-                  prefixIcon: Icon(Icons.home),
+                  labelStyle: TextStyle(color: Colors.black54),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black12),
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  prefixIcon: Icon(Icons.home, color: Colors.black45),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 ),
                 keyboardType: TextInputType.streetAddress,
               ),
@@ -65,7 +121,18 @@ class RegistrationView extends StatelessWidget {
                 controller: ageController,
                 decoration: const InputDecoration(
                   labelText: "Age",
-                  prefixIcon: Icon(Icons.cake),
+                  labelStyle: TextStyle(color: Colors.black54),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black12),
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  prefixIcon: Icon(Icons.cake, color: Colors.black45),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 ),
                 keyboardType: TextInputType.number,
               ),
@@ -74,7 +141,18 @@ class RegistrationView extends StatelessWidget {
                 controller: passwordController,
                 decoration: const InputDecoration(
                   labelText: "Password",
-                  prefixIcon: Icon(Icons.lock),
+                  labelStyle: TextStyle(color: Colors.black54),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black12),
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  prefixIcon: Icon(Icons.lock, color: Colors.black45),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 ),
                 obscureText: true,
               ),
@@ -83,29 +161,45 @@ class RegistrationView extends StatelessWidget {
                 controller: confirmPasswordController,
                 decoration: const InputDecoration(
                   labelText: "Confirm Password",
-                  prefixIcon: Icon(Icons.lock_outline),
+                  labelStyle: TextStyle(color: Colors.black54),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black12),
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  prefixIcon: Icon(Icons.lock_outline, color: Colors.black45),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 ),
                 obscureText: true,
               ),
               const SizedBox(height: 24),
               ElevatedButton(
-                onPressed: () {
-                  // Add registration logic here
-                },
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
-                child: const Text("Register", style: TextStyle(fontSize: 16)),
+                child: const Text("Register", style: TextStyle(fontSize: 18)),
               ),
               const SizedBox(height: 16),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text(
-                  "Back to Login",
-                  style: TextStyle(color: Colors.black54),
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.black,
+                  textStyle: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
                 ),
+                child: const Text("Back to Login"),
               ),
             ],
           ),
