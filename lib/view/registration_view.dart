@@ -37,6 +37,15 @@ class RegistrationView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 30),
+              Center(
+                child: Image.asset(
+                  'assets/images/register.jpg',
+                  width: 120,
+                  height: 120,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              const SizedBox(height: 30),
               TextField(
                 controller: nameController,
                 decoration: const InputDecoration(
@@ -112,7 +121,7 @@ class RegistrationView extends StatelessWidget {
                   ),
                   prefixIcon: Icon(Icons.home, color: Colors.black45),
                   contentPadding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                      EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 ),
                 keyboardType: TextInputType.streetAddress,
               ),
