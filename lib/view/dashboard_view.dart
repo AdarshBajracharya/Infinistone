@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinistone/common/my_snackbar.dart';
 
 class DashboardView extends StatelessWidget {
   DashboardView({super.key});
@@ -76,7 +77,7 @@ class DashboardView extends StatelessWidget {
                   Navigator.pushNamed(context, '/login');
                 },
                 child: const Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(16.0),
                   child: Center(
                     child: Text(
                       "Open Visualizer",
@@ -91,7 +92,6 @@ class DashboardView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            // Search Card
             Card(
               elevation: 4,
               shape: RoundedRectangleBorder(
@@ -111,7 +111,6 @@ class DashboardView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            // Category Cards
             _categoryCard("Tiles", Icons.sticky_note_2),
             const SizedBox(height: 16),
             _categoryCard("Marbles", Icons.sticky_note_2),

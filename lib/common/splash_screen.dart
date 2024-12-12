@@ -1,33 +1,46 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 3), () {
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _navigateToHomeScreen();
+  }
+
+  _navigateToHomeScreen() {
+    Timer(const Duration(seconds: 3), () {
       Navigator.pushReplacementNamed(context, '/login');
     });
+  }
 
-    return const Scaffold(
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.pets,
-              color: Color(0xFFB55C50),
-              size: 80,
+            Image.asset(
+              'assets/images/logo.png',
+              height: 150,
+              width: 150,
             ),
-            SizedBox(height: 20),
-            Text(
-              'PetCare App',
+            const SizedBox(height: 20),
+            const Text(
+              'Welcome',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFFB55C50),
+                color: Colors.black,
               ),
             ),
           ],
