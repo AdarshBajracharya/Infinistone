@@ -12,7 +12,6 @@ class DashboardView extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.menu),
           onPressed: () {
-            // Opens the drawer when the menu icon is pressed
             Scaffold.of(context).openDrawer();
           },
         ),
@@ -21,11 +20,11 @@ class DashboardView extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.all(0),
           children: [
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.black,
               ),
-              child: const Text(
+              child: Text(
                 "Menu",
                 style: TextStyle(
                   color: Colors.white,
@@ -61,11 +60,12 @@ class DashboardView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Button Row with Search Bar
             Row(
               children: [
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/login');
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
                     foregroundColor: Colors.white,
@@ -89,8 +89,6 @@ class DashboardView extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-
-            // Category Buttons
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -105,7 +103,6 @@ class DashboardView extends StatelessWidget {
     );
   }
 
-  // Category Button
   Widget _categoryButton(String label, IconData icon) {
     return ElevatedButton.icon(
       onPressed: () {},

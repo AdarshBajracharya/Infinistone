@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinistone/common/my_snackbar.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -82,7 +83,14 @@ class LoginView extends StatelessWidget {
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/dashboard');
+                  if (emailController.text == 'admin' &&
+                      passwordController.text == 'admin') {
+                    mySnackbar(context, 'Login successful!',
+                        backgroundColor: Colors.green);
+                    Navigator.pushNamed(context, '/dashboard');
+                  } else {
+                    mySnackbar(context, 'Invalid username or password');
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
@@ -108,9 +116,7 @@ class LoginView extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               TextButton(
-                onPressed: () {
-                  // Forgot password functionality
-                },
+                onPressed: () {},
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.black45,
                   textStyle: const TextStyle(
