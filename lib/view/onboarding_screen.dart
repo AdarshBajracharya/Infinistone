@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+  const OnboardingScreen({super.key});
 
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();
@@ -10,23 +10,24 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
+  bool _isDarkTheme = false;
 
   final List<Map<String, String>> onboardingData = [
     {
-      "title": "Welcome to PawPal",
-      "description": "Your ultimate companion for pet care and management.",
+      "title": "Welcome to Infinistone",
+      "description": "Your ultimate destination for premium tiles and stones.",
       "image": "assets/images/onboarding1.png",
     },
     {
-      "title": "For Pet Owners",
+      "title": "Discover Endless Options",
       "description":
-          "Find trusted pet sitters and ensure your furry friends are in good hands.",
+          "Browse a wide range of high-quality tiles, marbles, and granite.",
       "image": "assets/images/onboarding2.png",
     },
     {
-      "title": "For Pet Sitters",
+      "title": "Transform Your Spaces",
       "description":
-          "Connect with pet owners and grow your pet-sitting business.",
+          "Visualize and customize designs to create your dream interiors.",
       "image": "assets/images/onboarding3.png",
     },
   ];
@@ -40,7 +41,24 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFDF6F3),
+      backgroundColor: _isDarkTheme ? Colors.black : Colors.white,
+      appBar: AppBar(
+        backgroundColor: _isDarkTheme ? Colors.black : Colors.white,
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: Icon(
+              _isDarkTheme ? Icons.light_mode : Icons.dark_mode,
+              color: _isDarkTheme ? Colors.white : Colors.black,
+            ),
+            onPressed: () {
+              setState(() {
+                _isDarkTheme = !_isDarkTheme;
+              });
+            },
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Expanded(
@@ -71,19 +89,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           const SizedBox(height: 20),
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
-              color: Color(0xFFB55C50),
+              color: _isDarkTheme ? Colors.white : Colors.black,
             ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 10),
           Text(
             description,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
-              color: Colors.black54,
+              color: _isDarkTheme ? Colors.white70 : Colors.black54,
             ),
             textAlign: TextAlign.center,
           ),
@@ -100,14 +118,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         children: [
           TextButton(
             onPressed: () {
-              // Navigate to Registration View
               Navigator.pushReplacementNamed(context, '/login');
             },
-            child: const Text(
+            child: Text(
               "Skip",
               style: TextStyle(
                 fontSize: 16,
-                color: Color(0xFFB55C50),
+                color: _isDarkTheme ? Colors.white : Colors.black,
               ),
             ),
           ),
@@ -120,8 +137,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 width: _currentPage == index ? 24 : 8,
                 decoration: BoxDecoration(
                   color: _currentPage == index
-                      ? const Color(0xFFB55C50)
-                      : Colors.black26,
+                      ? (_isDarkTheme ? Colors.white : Colors.black)
+                      : (_isDarkTheme ? Colors.white38 : Colors.black26),
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
@@ -130,7 +147,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           IconButton(
             onPressed: () {
               if (_currentPage == onboardingData.length - 1) {
-                // Navigate to Registration View
                 Navigator.pushReplacementNamed(context, '/login');
               } else {
                 _pageController.nextPage(
@@ -143,7 +159,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               _currentPage == onboardingData.length - 1
                   ? Icons.check
                   : Icons.arrow_forward,
-              color: const Color(0xFFB55C50),
+              color: _isDarkTheme ? Colors.white : Colors.black,
             ),
           ),
         ],
