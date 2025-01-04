@@ -90,12 +90,11 @@ class HomePage extends StatelessWidget {
                   Navigator.pushNamed(context, '/login');
                 },
                 child: Container(
-                  height: 250, // Made the card larger
+                  height: 250,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     image: const DecorationImage(
-                      image: AssetImage(
-                          "assets/images/marbles.jpg"), // Marble-like background
+                      image: AssetImage("assets/images/marbles.jpg"),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -117,7 +116,7 @@ class HomePage extends StatelessWidget {
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
-                          textAlign: TextAlign.left, // Align text to the left
+                          textAlign: TextAlign.left,
                         ),
                       ),
                     ],
@@ -145,11 +144,11 @@ class HomePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            _categoryCard("Tiles", "assets/images/tiles.png"),
+            _categoryCard("TILES", "assets/images/tiles.png"),
             const SizedBox(height: 16),
-            _categoryCard("Marbles", "assets/images/marbles.jpg"),
+            _categoryCard("MARBLES", "assets/images/marbles.jpg"),
             const SizedBox(height: 16),
-            _categoryCard("Granite", "assets/images/granite.jpg"),
+            _categoryCard("GRANITE", "assets/images/granite.jpg"),
           ],
         ),
       ),
@@ -185,13 +184,11 @@ class HomePage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.sticky_note_2,
-                        size: 40, color: Colors.white),
                     const SizedBox(height: 8),
                     Text(
                       label,
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: 20,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
                       ),
