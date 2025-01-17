@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinistone/features/auth/presentation/view_model/signup/register_bloc.dart';
 
-class RegistrationView extends StatelessWidget {
+class RegistrationView extends StatefulWidget {
   const RegistrationView({super.key});
 
   @override
+  State<RegistrationView> createState() => _RegistrationViewState();
+}
+
+class _RegistrationViewState extends State<RegistrationView> {
+  @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    TextEditingController firstNameController = TextEditingController();
+    TextEditingController lastNameController = TextEditingController();
     TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
-    TextEditingController confirmPasswordController = TextEditingController();
-    TextEditingController nameController = TextEditingController();
     TextEditingController phoneController = TextEditingController();
     TextEditingController addressController = TextEditingController();
-    TextEditingController ageController = TextEditingController();
+    // TextEditingController ageController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
+    TextEditingController confirmPasswordController = TextEditingController();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -50,9 +58,9 @@ class RegistrationView extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
                 TextFormField(
-                  controller: nameController,
+                  controller: firstNameController,
                   decoration: const InputDecoration(
-                    labelText: "Full Name",
+                    labelText: "First Name",
                     labelStyle: TextStyle(color: Colors.black54),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.black12),
@@ -77,7 +85,41 @@ class RegistrationView extends StatelessWidget {
                   keyboardType: TextInputType.name,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your full name';
+                      return 'Please enter your first name';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: lastNameController,
+                  decoration: const InputDecoration(
+                    labelText: "Last Name",
+                    labelStyle: TextStyle(color: Colors.black54),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black12),
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red),
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red),
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                    ),
+                    prefixIcon: Icon(Icons.person, color: Colors.black45),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                  ),
+                  keyboardType: TextInputType.name,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your last name';
                     }
                     return null;
                   },
@@ -186,40 +228,40 @@ class RegistrationView extends StatelessWidget {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: ageController,
-                  decoration: const InputDecoration(
-                    labelText: "Age",
-                    labelStyle: TextStyle(color: Colors.black54),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black12),
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red),
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red),
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                    ),
-                    prefixIcon: Icon(Icons.cake, color: Colors.black45),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                  ),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your age';
-                    }
-                    return null;
-                  },
-                ),
+                // const SizedBox(height: 16),
+                // TextFormField(
+                //   controller: ageController,
+                //   decoration: const InputDecoration(
+                //     labelText: "Age",
+                //     labelStyle: TextStyle(color: Colors.black54),
+                //     enabledBorder: OutlineInputBorder(
+                //       borderSide: BorderSide(color: Colors.black12),
+                //       borderRadius: BorderRadius.all(Radius.circular(12)),
+                //     ),
+                //     focusedBorder: OutlineInputBorder(
+                //       borderSide: BorderSide(color: Colors.black),
+                //       borderRadius: BorderRadius.all(Radius.circular(12)),
+                //     ),
+                //     errorBorder: OutlineInputBorder(
+                //       borderSide: BorderSide(color: Colors.red),
+                //       borderRadius: BorderRadius.all(Radius.circular(12)),
+                //     ),
+                //     focusedErrorBorder: OutlineInputBorder(
+                //       borderSide: BorderSide(color: Colors.red),
+                //       borderRadius: BorderRadius.all(Radius.circular(12)),
+                //     ),
+                //     prefixIcon: Icon(Icons.cake, color: Colors.black45),
+                //     contentPadding:
+                //         EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                //   ),
+                //   keyboardType: TextInputType.number,
+                //   validator: (value) {
+                //     if (value == null || value.isEmpty) {
+                //       return 'Please enter your age';
+                //     }
+                //     return null;
+                //   },
+                // ),
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: passwordController,
@@ -294,7 +336,17 @@ class RegistrationView extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     if (formKey.currentState?.validate() ?? false) {
-                      // Proceed with registration
+                      context.read<RegisterBloc>().add(
+                            RegisterUser(
+                              context: context,
+                              fName: firstNameController.text,
+                              lName: lastNameController.text,
+                              phone: phoneController.text,
+                              email: emailController.text,
+                              address: addressController.text,
+                              password: passwordController.text,
+                            ),
+                          );
                     }
                   },
                   style: ElevatedButton.styleFrom(

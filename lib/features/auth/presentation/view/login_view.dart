@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:infinistone/core/common/my_snackbar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinistone/features/auth/presentation/view/registration_view.dart';
+import 'package:infinistone/features/auth/presentation/view_model/login/login_bloc.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -86,14 +88,13 @@ class LoginView extends StatelessWidget {
                 const SizedBox(height: 24),
                 ElevatedButton(
                   onPressed: () {
-                    if (emailController.text == 'admin' &&
-                        passwordController.text == 'admin') {
-                      mySnackbar(context, 'Login successful!',
-                          backgroundColor: Colors.green);
-                      Navigator.pushNamed(context, '/dashboard');
-                    } else {
-                      mySnackbar(context, 'Invalid username or password');
-                    }
+                    context.read<LoginBloc>().add(
+                          LoginUserEvent(
+                            context: context,
+                            username: emailController.text,
+                            password: passwordController.text,
+                          ),
+                        );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
@@ -108,7 +109,12 @@ class LoginView extends StatelessWidget {
                 const SizedBox(height: 16),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/register');
+                    context.read<LoginBloc>().add(
+                          NavigateRegisterScreenEvent(
+                            destination: const RegistrationView(),
+                            context: context,
+                          ),
+                        );
                   },
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.black,
