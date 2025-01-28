@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinistone/core/common/snackbar/my_snackbar.dart';
+import 'package:infinistone/features/home/presentation/view_model/dashboard_cubit.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -37,6 +40,21 @@ class _DashboardViewState extends State<DashboardView> {
                       : "Profile",
           style: const TextStyle(color: Colors.white),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              // Logout code
+              showMySnackBar(
+                context: context,
+                message: 'Logging out...',
+                color: Colors.red,
+              );
+
+              context.read<HomeCubit>().logout(context);
+            },
+          ),
+        ],
         backgroundColor: Colors.black,
       ),
       body: _pages[_selectedIndex],
