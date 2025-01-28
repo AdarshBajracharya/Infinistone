@@ -22,7 +22,7 @@ class RegisterUser extends RegisterEvent {
   final String email;
   final String phone;
   final String address;
-  // final int age;
+  final String? image;
   final String password;
 
   const RegisterUser({
@@ -32,7 +32,7 @@ class RegisterUser extends RegisterEvent {
     required this.email,
     required this.phone,
     required this.address,
-    // required this.age,
+    this.image,
     required this.password,
   });
 }

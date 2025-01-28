@@ -38,7 +38,13 @@ class _RegistrationViewState extends State<RegistrationView> {
       if (image != null) {
         setState(() {
           _img = File(image.path);
+          //Send image to server
+          context.read<RegisterBloc>().add(
+                LoadImage(file: _img!),
+              );
         });
+      } else {
+        return;
       }
     } catch (e) {
       debugPrint(e.toString());
@@ -135,8 +141,7 @@ class _RegistrationViewState extends State<RegistrationView> {
                     InkWell(
                       onTap: () {
                         showModalBottomSheet(
-                          backgroundColor:
-                              Colors.black, // Set background to black
+                          backgroundColor: Colors.black,
                           context: context,
                           isScrollControlled: true,
                           shape: const RoundedRectangleBorder(
@@ -255,6 +260,9 @@ class _RegistrationViewState extends State<RegistrationView> {
                     ElevatedButton(
                       onPressed: () {
                         if (formKey.currentState?.validate() ?? false) {
+                          final registerState =
+                              context.read<RegisterBloc>().state;
+                          final imageName = registerState.imageName;
                           context.read<RegisterBloc>().add(
                                 RegisterUser(
                                   context: context,
@@ -264,6 +272,7 @@ class _RegistrationViewState extends State<RegistrationView> {
                                   email: emailController.text,
                                   address: addressController.text,
                                   password: passwordController.text,
+                                  image: imageName,
                                 ),
                               );
                         }

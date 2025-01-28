@@ -8,6 +8,7 @@ import 'package:infinistone/features/auth/data/repository/auth_local_repository.
 import 'package:infinistone/features/auth/data/repository/auth_remote_repository.dart';
 import 'package:infinistone/features/auth/domain/use_case/login_usecase.dart';
 import 'package:infinistone/features/auth/domain/use_case/register_usecase.dart';
+import 'package:infinistone/features/auth/domain/use_case/upload_image_usecase.dart';
 import 'package:infinistone/features/auth/presentation/view_model/login/login_bloc.dart';
 import 'package:infinistone/features/auth/presentation/view_model/signup/register_bloc.dart';
 import 'package:infinistone/features/home/presentation/view_model/dashboard_cubit.dart';
@@ -66,9 +67,16 @@ _initRegisterDependencies() {
     ),
   );
 
+  getIt.registerLazySingleton<UploadImageUsecase>(
+    () => UploadImageUsecase(
+      getIt<AuthRemoteRepository>(),
+    ),
+  );
+
   getIt.registerFactory<RegisterBloc>(
     () => RegisterBloc(
       registerUseCase: getIt(),
+      uploadImageUsecase: getIt(),
     ),
   );
 }

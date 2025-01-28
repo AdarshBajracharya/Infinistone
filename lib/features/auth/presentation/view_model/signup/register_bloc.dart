@@ -21,6 +21,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         _uploadImageUsecase = uploadImageUsecase,
         super(const RegisterState.initial()) {
     on<RegisterUser>(_onRegisterEvent);
+    on<LoadImage>(_onLoadImage);
   }
 
   void _onRegisterEvent(
@@ -34,8 +35,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       email: event.email,
       phone: event.phone,
       address: event.address,
-      // age: event.age,
       password: event.password,
+      image: state.imageName,
     ));
 
     result.fold(
