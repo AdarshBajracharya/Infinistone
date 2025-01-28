@@ -7,7 +7,7 @@ class AuthEntity extends Equatable {
   final String email;
   final String phone;
   final String address;
-  // final int age;
+  final String? image;
   final String password;
 
   const AuthEntity({
@@ -17,11 +17,11 @@ class AuthEntity extends Equatable {
     required this.email,
     required this.phone,
     required this.address,
-    // required this.age,
+    this.image,
     required this.password,
   });
 
   @override
   List<Object?> get props =>
-      [userId, fName, lName, email, phone, address, password];
+      [userId, fName, lName, image, email, phone, address, password];
 }
