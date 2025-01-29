@@ -29,8 +29,8 @@ class AuthRemoteRepository implements IAuthRepository {
   @override
   Future<Either<Failure, String>> uploadProfilePicture(File file) async {
     try {
-      final result = await _authRemoteDatasource.uploadProfilePicture(file);
-      return Right(result);
+      final imageName = await _authRemoteDatasource.uploadProfilePicture(file);
+      return Right(imageName);
     } catch (e) {
       return Left(LocalDatabaseFailure(message: e.toString()));
     }

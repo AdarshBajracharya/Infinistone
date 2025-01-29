@@ -16,8 +16,7 @@ class LoginView extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(
-                'assets/images/background_auth.jpg'), 
+            image: AssetImage('assets/images/background_auth.jpg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -42,7 +41,7 @@ class LoginView extends StatelessWidget {
                   ),
                   const SizedBox(height: 30),
                   Image.asset(
-                    'assets/images/loginn.png',
+                    'assets/images/logo-white.png',
                     height: 150,
                   ),
                   const SizedBox(height: 30),
@@ -129,6 +128,7 @@ class LoginView extends StatelessWidget {
   }) {
     return TextField(
       controller: controller,
+      style: const TextStyle(color: Colors.white),
       decoration: InputDecoration(
         labelText: label,
         labelStyle: const TextStyle(color: Colors.white70),
