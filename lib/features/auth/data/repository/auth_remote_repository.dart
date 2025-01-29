@@ -19,10 +19,10 @@ class AuthRemoteRepository implements IAuthRepository {
   Future<Either<Failure, String>> loginUser(
       String email, String password) async {
     try {
-      final result = await _authRemoteDatasource.loginUser(email, password);
-      return Right(result);
+      final token = await _authRemoteDatasource.loginUser(email, password);
+      return Right(token);
     } catch (e) {
-      return Left(LocalDatabaseFailure(message: e.toString()));
+      return Left(ApiFailure(message: e.toString()));
     }
   }
 
@@ -32,7 +32,7 @@ class AuthRemoteRepository implements IAuthRepository {
       final imageName = await _authRemoteDatasource.uploadProfilePicture(file);
       return Right(imageName);
     } catch (e) {
-      return Left(LocalDatabaseFailure(message: e.toString()));
+      return Left(ApiFailure(message: e.toString()));
     }
   }
 
@@ -41,7 +41,7 @@ class AuthRemoteRepository implements IAuthRepository {
     try {
       return Right(_authRemoteDatasource.registerUser(user));
     } catch (e) {
-      return Left(LocalDatabaseFailure(message: e.toString()));
+      return Left(ApiFailure(message: e.toString()));
     }
   }
 }

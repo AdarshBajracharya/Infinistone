@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:infinistone/app/shared_prefs/token_shared_prefs.dart';
 import 'package:infinistone/core/network/api_service.dart';
 import 'package:infinistone/core/network/hive_service.dart';
 import 'package:infinistone/features/auth/data/data_source/local_data_source/auth_local_datasource.dart';
@@ -13,6 +14,7 @@ import 'package:infinistone/features/auth/presentation/view_model/login/login_bl
 import 'package:infinistone/features/auth/presentation/view_model/signup/register_bloc.dart';
 import 'package:infinistone/features/home/presentation/view_model/dashboard_cubit.dart';
 import 'package:infinistone/features/splash/presentation/view_model/splash_cubit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final getIt = GetIt.instance;
 
@@ -20,12 +22,17 @@ Future<void> initDependencies() async {
   // First initialize hive service
   await _initHiveService();
   await _initApiService();
-
+  await _initSharedPreferences();
   await _initHomeDependencies();
   await _initRegisterDependencies();
   await _initLoginDependencies();
 
   await _initSplashScreenDependencies();
+}
+
+Future<void> _initSharedPreferences() async {
+  final sharedPreferences = await SharedPreferences.getInstance();
+  getIt.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 }
 
 _initHiveService() {
@@ -88,9 +95,14 @@ _initHomeDependencies() async {
 }
 
 _initLoginDependencies() async {
+  getIt.registerLazySingleton<TokenSharedPrefs>(
+    () => TokenSharedPrefs(getIt<SharedPreferences>()),
+  );
+
   getIt.registerLazySingleton<LoginUseCase>(
     () => LoginUseCase(
       getIt<AuthRemoteRepository>(),
+      getIt<TokenSharedPrefs>(),
     ),
   );
 
