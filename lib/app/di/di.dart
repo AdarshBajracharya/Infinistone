@@ -13,6 +13,7 @@ import 'package:infinistone/features/auth/domain/use_case/upload_image_usecase.d
 import 'package:infinistone/features/auth/presentation/view_model/login/login_bloc.dart';
 import 'package:infinistone/features/auth/presentation/view_model/signup/register_bloc.dart';
 import 'package:infinistone/features/home/presentation/view_model/dashboard_cubit.dart';
+import 'package:infinistone/features/splash/presentation/view_model/onboarding_cubit.dart';
 import 'package:infinistone/features/splash/presentation/view_model/splash_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,7 +27,7 @@ Future<void> initDependencies() async {
   await _initHomeDependencies();
   await _initRegisterDependencies();
   await _initLoginDependencies();
-
+  await _initOnboardingScreenDependencies();
   await _initSplashScreenDependencies();
 }
 
@@ -117,6 +118,12 @@ _initLoginDependencies() async {
 
 _initSplashScreenDependencies() async {
   getIt.registerFactory<SplashCubit>(
-    () => SplashCubit(getIt<LoginBloc>()),
+    () => SplashCubit(getIt<OnboardingCubit>()),
+  );
+}
+
+_initOnboardingScreenDependencies() async {
+  getIt.registerFactory<OnboardingCubit>(
+    () => OnboardingCubit(),
   );
 }

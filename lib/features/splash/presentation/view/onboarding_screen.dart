@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinistone/features/splash/presentation/view_model/onboarding_cubit.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -118,7 +120,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         children: [
           TextButton(
             onPressed: () {
-              Navigator.pushReplacementNamed(context, '/login');
+              context.read<OnboardingCubit>().goToLogin(context);
             },
             child: Text(
               "Skip",
@@ -147,7 +149,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           IconButton(
             onPressed: () {
               if (_currentPage == onboardingData.length - 1) {
-                Navigator.pushReplacementNamed(context, '/login');
+                context.read<OnboardingCubit>().goToLogin(context);
               } else {
                 _pageController.nextPage(
                   duration: const Duration(milliseconds: 300),
