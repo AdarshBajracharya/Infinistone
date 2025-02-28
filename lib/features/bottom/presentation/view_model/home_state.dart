@@ -5,6 +5,7 @@ import 'package:infinistone/app/di/di.dart';
 import 'package:infinistone/features/home/presentation/view/dashboard_view.dart';
 import 'package:infinistone/features/shop/presentation/view/shop_view.dart';
 import 'package:infinistone/features/shop/presentation/view_model/shop_bloc.dart';
+import 'package:infinistone/features/visualizer/presentation/view/visualizer_view.dart';
 
 class HomeState extends Equatable {
   final int selectedIndex;
@@ -25,9 +26,7 @@ class HomeState extends Equatable {
           create: (context) => getIt<ShopBloc>(),
           child: const ShopView(),
         ),
-        const Center(
-          child: Text('Visualizer'),
-        ),
+        const Simple3DRoom(),
         const Center(
           child: Text('Account'),
         ),
