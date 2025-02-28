@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinistone/core/common/snackbar/my_snackbar.dart';
 import 'package:infinistone/features/auth/domain/use_case/login_usecase.dart';
 import 'package:infinistone/features/auth/presentation/view_model/signup/register_bloc.dart';
-import 'package:infinistone/features/home/presentation/view/dashboard_view.dart';
-import 'package:infinistone/features/home/presentation/view_model/dashboard_cubit.dart';
+import 'package:infinistone/features/bottom/presentation/view/home_view.dart';
+import 'package:infinistone/features/bottom/presentation/view_model/home_cubit.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -77,7 +77,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             add(
               NavigateHomeScreenEvent(
                 context: event.context,
-                destination: const DashboardView(),
+                destination: const HomeView(),
               ),
             );
             //_homeCubit.setToken(token);
