@@ -3,6 +3,7 @@ import 'dart:convert'; // For base64 decoding
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinistone/features/shop/domain/entity/item_entity.dart';
+import 'package:infinistone/features/shop/presentation/view/item_details_view.dart';
 import 'package:infinistone/features/shop/presentation/view_model/shop_bloc.dart';
 
 class ShopView extends StatefulWidget {
@@ -16,7 +17,7 @@ class _ShopViewState extends State<ShopView> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
   double _minPrice = 0;
-  double _maxPrice = 1000; 
+  double _maxPrice = 1000;
 
   // Function to check if the base64 string is valid
   bool isValidBase64(String base64String) {
@@ -120,54 +121,66 @@ class _ShopViewState extends State<ShopView> {
                             base64Image.split(',').last; // Remove the prefix
                       }
 
-                      return Card(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        elevation: 5,
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: ListTile(
-                            contentPadding: const EdgeInsets.all(10),
-                            leading: isValidBase64(base64Image)
-                                ? ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: Image.memory(
-                                      base64Decode(
-                                          base64Image), // Decode base64 and display the image
-                                      fit: BoxFit
-                                          .cover, // Adjust the image's fit
-                                      width: 50,
-                                      height: 50,
-                                    ),
-                                  )
-                                : const Icon(Icons.image_not_supported,
-                                    size: 50,
-                                    color: Colors
-                                        .grey), // Placeholder if no valid image
-                            title: Text(
-                              item.itemName,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ProductDetailView(product: item),
                             ),
-                            subtitle: Text(
-                              "Price: \$${item.itemPrice.toString()}",
-                              style: const TextStyle(
-                                color: Colors.green,
-                                fontWeight: FontWeight.w600,
+                          );
+                        },
+                        child: Card(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          elevation: 5,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: ListTile(
+                              contentPadding: const EdgeInsets.all(10),
+                              leading: isValidBase64(base64Image)
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: Image.memory(
+                                        base64Decode(
+                                            base64Image), // Decode base64 and display the image
+                                        fit: BoxFit
+                                            .cover, // Adjust the image's fit
+                                        width: 50,
+                                        height: 50,
+                                      ),
+                                    )
+                                  : const Icon(Icons.image_not_supported,
+                                      size: 50,
+                                      color: Colors
+                                          .grey), // Placeholder if no valid image
+                              title: Text(
+                                item.itemName,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
                               ),
-                            ),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.delete, color: Colors.red),
-                              onPressed: () {
-                                context
-                                    .read<ShopBloc>()
-                                    .add(DeleteItem(item.itemId ?? ''));
-                              },
+                              subtitle: Text(
+                                "Price: \$${item.itemPrice.toString()}",
+                                style: const TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              // trailing: IconButton(
+                              //   icon:
+                              //       const Icon(Icons.delete, color: Colors.red),
+                              //   onPressed: () {
+                              //     context
+                              //         .read<ShopBloc>()
+                              //         .add(DeleteItem(item.itemId ?? ''));
+                              //   },
+                              // ),
                             ),
                           ),
                         ),
@@ -179,13 +192,6 @@ class _ShopViewState extends State<ShopView> {
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Navigate to Add Item Page (you need to create this page)
-        },
-        backgroundColor: Colors.black,
-        child: const Icon(Icons.add),
       ),
     );
   }

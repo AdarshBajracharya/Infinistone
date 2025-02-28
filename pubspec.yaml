@@ -54,6 +54,8 @@ dependencies:
   get_it: ^8.0.3
   flutter_bloc: ^8.1.6
   bloc: ^8.1.4
+  three_dart: ^0.0.16
+  three_dart_jsm: ^0.0.10
   flutter_test:
     sdk: flutter
   test_cov_console: ^0.2.2

@@ -13,9 +13,14 @@ class ApiEndpoints {
   static const String register = "auth/register";
   static const String uploadImage = "auth/uploadImage/";
 
-    // ====================== Item Routes ======================
+  // ====================== Item Routes ======================
   static const String createItem = "product/create";
   static const String getAllItems = "product/getAllProducts";
   static const String deleteItem = "product/";
+
+  //========================= Booking Routes ======================
+  static const String createBooking = "booking/booking";
+  static const String getAllBookings = "booking/bookings";
+  static const String deleteBooking = "booking/";
 }
 
