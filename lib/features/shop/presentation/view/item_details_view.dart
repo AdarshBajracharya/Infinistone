@@ -35,9 +35,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
       final prefs = await SharedPreferences.getInstance();
       final customerId = prefs.getString('userId');
 
-
       DateTime selectedDate = DateTime.parse(_dateController.text);
-
 
       context.read<ShopBloc>().add(AddBooking(
             customerId!,
@@ -68,12 +66,10 @@ class _ProductDetailViewState extends State<ProductDetailView> {
 
   @override
   Widget build(BuildContext context) {
-    // Decode the base64 image
     Uint8List? imageBytes;
     if (widget.product.itemImage != null &&
         widget.product.itemImage!.isNotEmpty) {
       try {
-        // Remove the prefix if it exists
         String base64String = widget.product.itemImage!;
         if (base64String.contains(',')) {
           base64String = base64String.split(',').last;
@@ -85,19 +81,18 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.black, // Black background for the whole screen
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
           widget.product.itemName,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
-            color: Colors.white, // White text
+            color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.black, // Black background
+        backgroundColor: Colors.black,
         elevation: 0,
-        iconTheme:
-            const IconThemeData(color: Colors.white), // White back button
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -131,7 +126,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white, // White text
+                  color: Colors.white,
                 ),
               ),
               const SizedBox(height: 10),
@@ -142,7 +137,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w600,
-                  color: Colors.green, // Green price
+                  color: Colors.green,
                 ),
               ),
               const SizedBox(height: 20),
@@ -150,6 +145,8 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               // Date Input
               TextField(
                 controller: _dateController,
+                style: const TextStyle(
+                    color: Colors.white), // Set text color to white
                 decoration: const InputDecoration(
                   labelText: 'Select Date',
                   labelStyle:

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:infinistone/features/home/presentation/bloc/bookings_bloc.dart';
 import 'package:infinistone/features/home/presentation/view_model/bookings_bloc.dart';
 import 'package:infinistone/features/shop/domain/entity/booking_entity.dart';
 
@@ -34,16 +33,15 @@ class BookingsPage extends StatelessWidget {
 
           // Empty bookings state with a beautiful message
           else if (state.bookings.isEmpty ?? true) {
-            return Center(
+            return const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Icon(Icons.bookmark_border,
-                      size: 100, color: Colors.grey),
-                  const SizedBox(height: 20),
-                  const Text(
-                    'No bookings found yet!\nTry adding some.',
+                  Icon(Icons.bookmark_border, size: 100, color: Colors.grey),
+                  SizedBox(height: 20),
+                  Text(
+                    'No bookings found yet!',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
@@ -51,31 +49,20 @@ class BookingsPage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green, // Green button
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 12),
-                    ),
-                    child: const Text(
-                      'Add New Booking',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                  ),
                 ],
               ),
             );
           }
 
+          // Sort bookings by date (most recent first)
+          final sortedBookings = state.bookings.toList()
+            ..sort((a, b) => b.bookingDate.compareTo(a.bookingDate));
+
           // Display bookings in a beautiful card layout
           return ListView.builder(
-            itemCount: state.bookings.length ?? 0,
+            itemCount: sortedBookings.length,
             itemBuilder: (context, index) {
-              BookingEntity booking = state.bookings[index];
+              BookingEntity booking = sortedBookings[index];
               return Card(
                 margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                 color: Colors.black,
@@ -87,14 +74,14 @@ class BookingsPage extends StatelessWidget {
                   contentPadding:
                       const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                   title: Text(
-                    'Customer ID: ${booking.customerId}',
+                    'Item: ${booking.productId}', // Replace with item name if available
                     style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
                   ),
                   subtitle: Text(
-                    'Product ID: ${booking.productId}\nDate: ${booking.bookingDate}',
+                    'Date: ${booking.bookingDate}',
                     style: const TextStyle(color: Colors.white70, fontSize: 16),
                   ),
                   trailing: IconButton(
