@@ -17,8 +17,8 @@ class LoadImage extends RegisterEvent {
 
 class RegisterUser extends RegisterEvent {
   final BuildContext context;
-  final String fName;
-  final String lName;
+  final String fname;
+  final String lname;
   final String email;
   final String phone;
   final String address;
@@ -27,8 +27,8 @@ class RegisterUser extends RegisterEvent {
 
   const RegisterUser({
     required this.context,
-    required this.fName,
-    required this.lName,
+    required this.fname,
+    required this.lname,
     required this.email,
     required this.phone,
     required this.address,

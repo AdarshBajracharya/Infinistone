@@ -13,8 +13,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Infinistone',
-            style: TextStyle(color: Colors.white)), // White text
+        title: const Text('Infinistone', style: TextStyle(color: Colors.white)),
         centerTitle: true,
         backgroundColor: Colors.black, // Black app bar
         actions: [
@@ -28,13 +27,6 @@ class HomeView extends StatelessWidget {
               );
               context.read<HomeCubit>().logout(context);
             },
-          ),
-          Switch(
-            value: _isDarkTheme,
-            onChanged: (value) {
-              // Handle theme change
-            },
-            activeColor: Colors.white, // White switch color
           ),
         ],
       ),
@@ -65,7 +57,8 @@ class HomeView extends StatelessWidget {
                 label: 'Account',
               ),
             ],
-            backgroundColor: Colors.black, // Black navigation bar
+            backgroundColor:
+                Colors.black, // Black background for Bottom Navigation Bar
             currentIndex: state.selectedIndex,
             selectedItemColor: Colors.black, // White for selected item
             unselectedItemColor: Colors.grey, // Grey for unselected items

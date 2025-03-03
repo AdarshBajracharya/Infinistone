@@ -18,8 +18,6 @@ class LoadImage extends ShopEvent {
   });
 }
 
-
-
 final class AddItem extends ShopEvent {
   final String itemName;
   final String itemType;
@@ -27,7 +25,8 @@ final class AddItem extends ShopEvent {
   final double itemPrice;
   final String? itemImage;
 
-  const AddItem(this.itemName, this.itemType, this.itemInfo, this.itemPrice, this.itemImage);
+  const AddItem(this.itemName, this.itemType, this.itemInfo, this.itemPrice,
+      this.itemImage);
 
   @override
   List<Object> get props => [itemName, itemType, itemInfo, itemPrice];
@@ -42,4 +41,15 @@ final class DeleteItem extends ShopEvent {
   List<Object> get props => [itemId];
 }
 
+final class LoadBookings extends ShopEvent {}
 
+final class AddBooking extends ShopEvent {
+  final String customerId;
+  final String productId;
+  final DateTime bookingDate;
+
+  const AddBooking(this.customerId, this.productId, this.bookingDate);
+
+  @override
+  List<Object> get props => [customerId, productId, bookingDate];
+}

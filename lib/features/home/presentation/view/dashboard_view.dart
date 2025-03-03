@@ -1,131 +1,115 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:infinistone/features/home/presentation/bloc/bookings_bloc.dart';
+import 'package:infinistone/features/home/presentation/view_model/bookings_bloc.dart';
+import 'package:infinistone/features/shop/domain/entity/booking_entity.dart';
 
-class DashboardView extends StatelessWidget {
-  const DashboardView({super.key});
+class BookingsPage extends StatelessWidget {
+  const BookingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/login');
-                  },
-                  child: Container(
-                    height: 250,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      image: const DecorationImage(
-                        image: AssetImage("assets/images/marbles.jpg"),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    child: Stack(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.black.withOpacity(0.5),
-                          ),
-                        ),
-                        const Positioned(
-                          bottom: 16,
-                          left: 16,
-                          child: Text(
-                            "Open Visualizer",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: "Search Stones...",
-                      prefixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              _categoryCard("TILES", "assets/images/tiles.png"),
-              const SizedBox(height: 16),
-              _categoryCard("MARBLES", "assets/images/marbles.jpg"),
-              const SizedBox(height: 16),
-              _categoryCard("GRANITE", "assets/images/granite.jpg"),
-            ],
-          ),
-        ),
+      // Background with gradient
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: const Text('Bookings',
+            style: TextStyle(color: Colors.white)), // White text in AppBar
+        backgroundColor: Colors.black, // Black background for AppBar
+        elevation: 0,
       ),
-    );
-  }
+      body: BlocBuilder<BookingsBloc, BookingState>(
+        builder: (context, state) {
+          // Loading state
+          if (state.isLoading == true) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-  Widget _categoryCard(String label, String assetPath) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: InkWell(
-        onTap: () {},
-        child: Container(
-          height: 150,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            image: DecorationImage(
-              image: AssetImage(assetPath),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Stack(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.black.withOpacity(0.5),
-                ),
+          // Error state
+          else if (state.error != null) {
+            return Center(
+                child: Text('Error: ${state.error}',
+                    style: const TextStyle(color: Colors.white, fontSize: 18)));
+          }
+
+          // Empty bookings state with a beautiful message
+          else if (state.bookings.isEmpty ?? true) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Icon(Icons.bookmark_border,
+                      size: 100, color: Colors.grey),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'No bookings found yet!\nTry adding some.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green, // Green button
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 12),
+                    ),
+                    child: const Text(
+                      'Add New Booking',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                  ),
+                ],
               ),
-              Center(
-                child: Text(
-                  label,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
+            );
+          }
+
+          // Display bookings in a beautiful card layout
+          return ListView.builder(
+            itemCount: state.bookings.length ?? 0,
+            itemBuilder: (context, index) {
+              BookingEntity booking = state.bookings[index];
+              return Card(
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                color: Colors.black,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16)),
+                elevation: 5,
+                shadowColor: Colors.grey.withOpacity(0.5),
+                child: ListTile(
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                  title: Text(
+                    'Customer ID: ${booking.customerId}',
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Text(
+                    'Product ID: ${booking.productId}\nDate: ${booking.bookingDate}',
+                    style: const TextStyle(color: Colors.white70, fontSize: 16),
+                  ),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    onPressed: () {
+                      context
+                          .read<BookingsBloc>()
+                          .add(DeleteBooking(booking.bookingId ?? ''));
+                    },
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
+              );
+            },
+          );
+        },
       ),
     );
   }

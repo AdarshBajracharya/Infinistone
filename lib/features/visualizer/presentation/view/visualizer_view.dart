@@ -15,126 +15,73 @@ class _Simple3DRoomState extends State<Simple3DRoom> {
   double _startX = 0;
   double _startY = 0;
 
-  // Clamp rotation values to stay within the slider's range
   void _updateRotation(double deltaX, double deltaY) {
     setState(() {
-      _rotationX = (_rotationX + deltaY * 0.01).clamp(-1.5, 1.5);
-      _rotationY = (_rotationY + deltaX * 0.01).clamp(-1.5, 1.5);
+      _rotationX = (_rotationX + deltaY * 0.01).clamp(-pi / 4, pi / 4);
+      _rotationY = (_rotationY + deltaX * 0.01).clamp(-pi / 4, pi / 4);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Simple 3D Room Effect')),
-      body: Column(
-        children: [
-          Expanded(
-            child: Center(
-              child: GestureDetector(
-                onPanUpdate: (details) {
-                  _updateRotation(
-                    details.localPosition.dx - _startX,
-                    details.localPosition.dy - _startY,
-                  );
-                  _startX = details.localPosition.dx;
-                  _startY = details.localPosition.dy;
-                },
-                onPanStart: (details) {
-                  _startX = details.localPosition.dx;
-                  _startY = details.localPosition.dy;
-                },
-                child: Transform(
-                  alignment: FractionalOffset.center,
-                  transform: Matrix4.identity()
-                    ..setEntry(3, 2, 0.001) // Perspective
-                    ..rotateX(_rotationX)
-                    ..rotateY(_rotationY),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      // Floor
-                      Transform(
-                        transform: Matrix4.translationValues(0, 100, 0),
-                        child: Container(
-                          width: 200,
-                          height: 200,
-                          color: Colors.brown[300],
-                        ),
-                      ),
-                      // Ceiling
-                      Transform(
-                        transform: Matrix4.translationValues(0, -100, 0),
-                        child: Container(
-                          width: 200,
-                          height: 200,
-                          color: Colors.brown[400],
-                        ),
-                      ),
-                      // Left Wall
-                      Transform(
-                        transform: Matrix4.translationValues(-100, 0, 0)
-                          ..rotateY(pi / 2),
-                        child: Container(
-                          width: 200,
-                          height: 200,
-                          color: Colors.blue[300],
-                        ),
-                      ),
-                      // Right Wall
-                      Transform(
-                        transform: Matrix4.translationValues(100, 0, 0)
-                          ..rotateY(pi / 2),
-                        child: Container(
-                          width: 200,
-                          height: 200,
-                          color: Colors.blue[500],
-                        ),
-                      ),
-                      // Back Wall
-                      Transform(
-                        transform: Matrix4.translationValues(0, 0, -100),
-                        child: Container(
-                          width: 200,
-                          height: 200,
-                          color: Colors.green[300],
-                        ),
-                      ),
-                      // Front Wall (Optional, can be transparent or omitted)
-                      Transform(
-                        transform: Matrix4.translationValues(0, 0, 100),
-                        child: Container(
-                          width: 200,
-                          height: 200,
-                          color: Colors.green[500],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+      appBar: AppBar(title: const Text('3D Room')),
+      body: GestureDetector(
+        onPanUpdate: (details) {
+          _updateRotation(
+            details.localPosition.dx - _startX,
+            details.localPosition.dy - _startY,
+          );
+          _startX = details.localPosition.dx;
+          _startY = details.localPosition.dy;
+        },
+        onPanStart: (details) {
+          _startX = details.localPosition.dx;
+          _startY = details.localPosition.dy;
+        },
+        child: Center(
+          child: Transform(
+            alignment: Alignment.center,
+            transform: Matrix4.identity()
+              ..setEntry(3, 2, 0.0015) // Perspective
+              ..rotateX(_rotationX)
+              ..rotateY(_rotationY),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                _buildWall(Colors.brown[300]!, 200, 200, 0, 100, 0), // Floor
+                _buildWall(Colors.brown[400]!, 200, 200, 0, -100, 0), // Ceiling
+                _buildWall(Colors.blue[300]!, 200, 200, -100, 0, 0,
+                    rotateY: pi / 2), // Left Wall
+                _buildWall(Colors.blue[500]!, 200, 200, 100, 0, 0,
+                    rotateY: pi / 2), // Right Wall
+                _buildWall(
+                    Colors.green[300]!, 200, 200, 0, 0, -100), // Back Wall
+              ],
             ),
           ),
-          _buildSlider('Rotation X', _rotationX, -1.5, 1.5, (value) {
-            setState(() => _rotationX = value);
-          }),
-          _buildSlider('Rotation Y', _rotationY, -1.5, 1.5, (value) {
-            setState(() => _rotationY = value);
-          }),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _buildSlider(String label, double value, double min, double max,
-      ValueChanged<double> onChanged) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        Slider(value: value, min: min, max: max, onChanged: onChanged),
-      ],
+  Widget _buildWall(
+      Color color, double width, double height, double x, double y, double z,
+      {double rotateY = 0, double rotateX = 0}) {
+    return Transform(
+      alignment: Alignment.center,
+      transform: Matrix4.identity()
+        ..translate(x, y, z)
+        ..rotateY(rotateY)
+        ..rotateX(rotateX),
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: color,
+          border: Border.all(color: Colors.black, width: 1),
+        ),
+      ),
     );
   }
 }

@@ -6,8 +6,8 @@ void main() {
     test('should correctly initialize AuthEntity', () {
       const auth = AuthEntity(
         userId: '123',
-        fName: 'Adarsh',
-        lName: 'Bajracharya',
+        fname: 'Adarsh',
+        lname: 'Bajracharya',
         email: 'adarsh@example.com',
         phone: '1234567890',
         address: 'Teku',
@@ -16,8 +16,8 @@ void main() {
       );
 
       expect(auth.userId, '123');
-      expect(auth.fName, 'Adarsh');
-      expect(auth.lName, 'Bajracharya');
+      expect(auth.fname, 'Adarsh');
+      expect(auth.lname, 'Bajracharya');
       expect(auth.email, 'adarsh@example.com');
       expect(auth.phone, '1234567890');
       expect(auth.address, 'Teku');
@@ -28,8 +28,8 @@ void main() {
     test('should support value equality', () {
       const auth1 = AuthEntity(
         userId: '123',
-        fName: 'Adarsh',
-        lName: 'Bajracharya',
+        fname: 'Adarsh',
+        lname: 'Bajracharya',
         email: 'adarsh@example.com',
         phone: '1234567890',
         address: 'Teku',
@@ -39,8 +39,8 @@ void main() {
 
       const auth2 = AuthEntity(
         userId: '123',
-        fName: 'Adarsh',
-        lName: 'Bajracharya',
+        fname: 'Adarsh',
+        lname: 'Bajracharya',
         email: 'adarsh@example.com',
         phone: '1234567890',
         address: 'Teku',
@@ -54,8 +54,8 @@ void main() {
     test('should return different instances for different properties', () {
       const auth1 = AuthEntity(
         userId: '123',
-        fName: 'Adarsh',
-        lName: 'Bajracharya',
+        fname: 'Adarsh',
+        lname: 'Bajracharya',
         email: 'adarsh@example.com',
         phone: '1234567890',
         address: 'Teku',
@@ -64,8 +64,8 @@ void main() {
 
       const auth2 = AuthEntity(
         userId: '124', // Different userId
-        fName: 'Adarsh',
-        lName: 'Bajracharya',
+        fname: 'Adarsh',
+        lname: 'Bajracharya',
         email: 'adarsh@example.com',
         phone: '1234567890',
         address: 'Teku',
@@ -77,8 +77,8 @@ void main() {
 
     test('should allow nullable userId', () {
       const auth = AuthEntity(
-        fName: 'Adarsh',
-        lName: 'Bajracharya',
+        fname: 'Adarsh',
+        lname: 'Bajracharya',
         email: 'adarsh@example.com',
         phone: '1234567890',
         address: 'Teku',
@@ -91,8 +91,8 @@ void main() {
     test('should allow nullable image', () {
       const auth = AuthEntity(
         userId: '123',
-        fName: 'Adarsh',
-        lName: 'Bajracharya',
+        fname: 'Adarsh',
+        lname: 'Bajracharya',
         email: 'adarsh@example.com',
         phone: '1234567890',
         address: 'Teku',
@@ -105,8 +105,8 @@ void main() {
     test('should fail equality check when password differs', () {
       const auth1 = AuthEntity(
         userId: '123',
-        fName: 'Adarsh',
-        lName: 'Bajracharya',
+        fname: 'Adarsh',
+        lname: 'Bajracharya',
         email: 'adarsh@example.com',
         phone: '1234567890',
         address: 'Teku',
@@ -115,8 +115,8 @@ void main() {
 
       const auth2 = AuthEntity(
         userId: '123',
-        fName: 'John',
-        lName: 'Doe',
+        fname: 'John',
+        lname: 'Doe',
         email: 'john@example.com',
         phone: '1234567890',
         address: '123 Street',
@@ -129,8 +129,8 @@ void main() {
     test('should correctly override props method', () {
       const auth = AuthEntity(
         userId: '123',
-        fName: 'John',
-        lName: 'Doe',
+        fname: 'John',
+        lname: 'Doe',
         email: 'john@example.com',
         phone: '1234567890',
         address: '123 Street',
@@ -153,8 +153,8 @@ void main() {
     test('should handle empty string values properly', () {
       const auth = AuthEntity(
         userId: '',
-        fName: '',
-        lName: '',
+        fname: '',
+        lname: '',
         email: '',
         phone: '',
         address: '',
@@ -163,8 +163,8 @@ void main() {
       );
 
       expect(auth.userId, '');
-      expect(auth.fName, '');
-      expect(auth.lName, '');
+      expect(auth.fname, '');
+      expect(auth.lname, '');
       expect(auth.email, '');
       expect(auth.phone, '');
       expect(auth.address, '');
@@ -174,8 +174,8 @@ void main() {
 
     test('should correctly compare objects with only required properties', () {
       const auth1 = AuthEntity(
-        fName: 'Alice',
-        lName: 'Smith',
+        fname: 'Alice',
+        lname: 'Smith',
         email: 'alice@example.com',
         phone: '9876543210',
         address: '456 Road',
@@ -183,8 +183,8 @@ void main() {
       );
 
       const auth2 = AuthEntity(
-        fName: 'Alice',
-        lName: 'Smith',
+        fname: 'Alice',
+        lname: 'Smith',
         email: 'alice@example.com',
         phone: '9876543210',
         address: '456 Road',
@@ -197,8 +197,8 @@ void main() {
     test('should be different if one has image and other does not', () {
       const auth1 = AuthEntity(
         userId: '123',
-        fName: 'Bob',
-        lName: 'Brown',
+        fname: 'Bob',
+        lname: 'Brown',
         email: 'bob@example.com',
         phone: '1122334455',
         address: '789 Avenue',
@@ -208,8 +208,8 @@ void main() {
 
       const auth2 = AuthEntity(
         userId: '123',
-        fName: 'Bob',
-        lName: 'Brown',
+        fname: 'Bob',
+        lname: 'Brown',
         email: 'bob@example.com',
         phone: '1122334455',
         address: '789 Avenue',

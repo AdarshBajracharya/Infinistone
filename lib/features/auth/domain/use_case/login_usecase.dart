@@ -33,7 +33,10 @@ class LoginUseCase implements UsecaseWithParams<String, LoginParams> {
   Future<Either<Failure, String>> call(LoginParams params) {
     return repository.loginUser(params.email, params.password).then((value) {
       return value.fold(
-        (failure) => Left(failure),
+        (failure) {
+          print("Login Failure: ${failure.message}");
+          return Left(failure);
+        },
         (token) {
           tokenSharedPrefs.saveToken(token);
           tokenSharedPrefs.getToken().then((value) {

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:infinistone/features/home/domain/use_case/create_bookings_usecase.dart';
 import 'package:infinistone/features/shop/domain/entity/item_entity.dart';
 import 'package:infinistone/features/shop/domain/use_case/create_item_usecase.dart';
 import 'package:infinistone/features/shop/domain/use_case/delete_item_usecase.dart';
@@ -15,18 +16,22 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
   final CreateItemUseCase _createItemUseCase;
   final GetAllItemUseCase _getAllItemUseCase;
   final DeleteItemUsecase _deleteItemUsecase;
+  final CreateBookingUseCase _createBookingUseCase;
 
   ShopBloc({
     required CreateItemUseCase createItemUseCase,
     required GetAllItemUseCase getAllItemUseCase,
     required DeleteItemUsecase deleteItemUsecase,
+    required CreateBookingUseCase createBookingUseCase,
   })  : _createItemUseCase = createItemUseCase,
         _getAllItemUseCase = getAllItemUseCase,
         _deleteItemUsecase = deleteItemUsecase,
+        _createBookingUseCase = createBookingUseCase,
         super(ShopState.initial()) {
     on<LoadItems>(_onLoadItems);
     on<AddItem>(_onAddItem);
     on<DeleteItem>(_onDeleteItem);
+    on<AddBooking>(_onAddBooking);
 
     // Call this event whenever the bloc is created to load the items
     add(LoadItems());
@@ -70,6 +75,23 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
       (batches) {
         emit(state.copyWith(isLoading: false, error: null));
         add(LoadItems());
+      },
+    );
+  }
+
+  Future<void> _onAddBooking(AddBooking event, Emitter<ShopState> emit) async {
+    emit(state.copyWith(isLoading: true));
+    final result = await _createBookingUseCase.call(CreateBookingParams(
+      customerId: event.customerId,
+      productId: event.productId,
+      bookingDate: event.bookingDate,
+    ));
+    result.fold(
+      (failure) =>
+          emit(state.copyWith(isLoading: false, error: failure.message)),
+      (bookings) {
+        emit(state.copyWith(isLoading: false, error: null));
+        add(LoadBookings());
       },
     );
   }

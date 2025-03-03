@@ -12,6 +12,8 @@ class ApiEndpoints {
   static const String login = "auth/login";
   static const String register = "auth/register";
   static const String uploadImage = "auth/uploadImage/";
+  static const String getUser = "auth/";
+  static const String updateUser = "auth/update/";
 
   // ====================== Item Routes ======================
   static const String createItem = "product/create";
@@ -21,6 +23,5 @@ class ApiEndpoints {
   //========================= Booking Routes ======================
   static const String createBooking = "booking/booking";
   static const String getAllBookings = "booking/bookings";
-  static const String deleteBooking = "booking/";
+  static const String deleteBooking = "booking/booking/";
 }
-

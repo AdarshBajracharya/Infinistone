@@ -266,8 +266,8 @@ class _RegistrationViewState extends State<RegistrationView> {
                           context.read<RegisterBloc>().add(
                                 RegisterUser(
                                   context: context,
-                                  fName: firstNameController.text,
-                                  lName: lastNameController.text,
+                                  fname: firstNameController.text,
+                                  lname: lastNameController.text,
                                   phone: phoneController.text,
                                   email: emailController.text,
                                   address: addressController.text,

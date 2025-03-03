@@ -2,7 +2,9 @@ import 'dart:convert'; // Import for base64 decoding
 import 'dart:typed_data'; // Import for Uint8List
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart'; // Import for BlocProvider
 import 'package:infinistone/features/shop/domain/entity/item_entity.dart';
+import 'package:infinistone/features/shop/presentation/view_model/shop_bloc.dart'; // Import for ShopBloc
 
 class ProductDetailView extends StatefulWidget {
   final ItemEntity product;
@@ -29,7 +31,13 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     }
 
     try {
-      await Future.delayed(const Duration(seconds: 2));
+      const customerId = "67c532da4d540d83b813c7f0";
+      // Dispatch AddBooking event to the Bloc
+      context.read<ShopBloc>().add(AddBooking(
+            customerId,
+            widget.product.itemId!,
+            _dateController.text as DateTime,
+          ));
 
       setState(() {
         _isAppointmentBooked = true;
@@ -70,6 +78,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     }
 
     return Scaffold(
+      backgroundColor: Colors.black, // Black background for the whole screen
       appBar: AppBar(
         title: Text(
           widget.product.itemName,
@@ -115,6 +124,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
+                  color: Colors.white, // White text
                 ),
               ),
               const SizedBox(height: 10),
@@ -125,7 +135,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w600,
-                  color: Colors.black,
+                  color: Colors.green, // Green price
                 ),
               ),
               const SizedBox(height: 20),
@@ -135,8 +145,13 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 controller: _dateController,
                 decoration: const InputDecoration(
                   labelText: 'Select Date',
+                  labelStyle:
+                      TextStyle(color: Colors.white), // White label text
                   border: OutlineInputBorder(),
-                  suffixIcon: Icon(Icons.calendar_today),
+                  suffixIcon: Icon(
+                    Icons.calendar_today,
+                    color: Colors.white, // White icon
+                  ),
                 ),
                 readOnly: true, // Prevent manual editing
                 onTap: () async {
@@ -164,7 +179,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 child: ElevatedButton(
                   onPressed: _bookAppointment,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black, // Black background
+                    backgroundColor: Colors.white, // Black background
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
@@ -175,7 +190,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white, // White text
+                      color: Colors.black, // White text
                     ),
                   ),
                 ),

@@ -34,8 +34,9 @@ class BookingRemoteDataSource implements IBookingDataSource {
   @override
   Future<void> deleteBooking(String id, String? token) async {
     try {
+      print('VAL: JSON: DELETE $token');
       var response = await _dio.delete(
-        ApiEndpoints.deleteBooking + id,
+        '${ApiEndpoints.deleteBooking}$id',
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -61,13 +62,16 @@ class BookingRemoteDataSource implements IBookingDataSource {
       var response = await _dio.get(
         ApiEndpoints.getAllBookings,
       );
+      print('VAL: JSON:1 $response');
 
       GetAllBookingsDTO bookingDTO = GetAllBookingsDTO.fromJson(response.data);
-      return BookingApiModel.toEntityList(bookingDTO.data);
+      var val = BookingApiModel.toEntityList(bookingDTO.data);
+      print("VAL: $val");
+      return val;
     } on DioException catch (e) {
       throw Exception((e));
     } catch (e) {
-      throw Exception(e.toString());
+      throw Exception(' REMOTE DS ${e.toString()}');
     }
   }
 }

@@ -11,12 +11,12 @@ class AuthLocalDataSource implements IAuthDataSource {
   AuthLocalDataSource(this._hiveService);
 
   @override
-  Future<AuthEntity> getCurrentUser() {
+  Future<AuthEntity> getCurrentUser(String? token, String userId) {
     // Return Empty AuthEntity
     return Future.value(const AuthEntity(
       userId: "1",
-      fName: "",
-      lName: "",
+      fname: "",
+      lname: "",
       email: "",
       phone: "",
       address: "",
@@ -49,6 +49,12 @@ class AuthLocalDataSource implements IAuthDataSource {
 
   @override
   Future<String> uploadProfilePicture(File file) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<AuthEntity> updateUser(AuthEntity userId) {
+    // TODO: implement updateUser
     throw UnimplementedError();
   }
 }
