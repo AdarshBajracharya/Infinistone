@@ -4,7 +4,8 @@ import 'dart:typed_data'; // Import for Uint8List
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart'; // Import for BlocProvider
 import 'package:infinistone/features/shop/domain/entity/item_entity.dart';
-import 'package:infinistone/features/shop/presentation/view_model/shop_bloc.dart'; // Import for ShopBloc
+import 'package:infinistone/features/shop/presentation/view_model/shop_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // Import for ShopBloc
 
 class ProductDetailView extends StatefulWidget {
   final ItemEntity product;
@@ -31,12 +32,17 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     }
 
     try {
-      const customerId = "67c532da4d540d83b813c7f0";
-      // Dispatch AddBooking event to the Bloc
+      final prefs = await SharedPreferences.getInstance();
+      final customerId = prefs.getString('userId');
+
+
+      DateTime selectedDate = DateTime.parse(_dateController.text);
+
+
       context.read<ShopBloc>().add(AddBooking(
-            customerId,
+            customerId!,
             widget.product.itemId!,
-            _dateController.text as DateTime,
+            selectedDate,
           ));
 
       setState(() {
@@ -50,6 +56,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
         ),
       );
     } catch (error) {
+      print('Error booking appointment: $error');
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Failed to book the appointment. Try again!'),

@@ -5,6 +5,7 @@ import 'package:infinistone/app/constants/api_endpoints.dart';
 import 'package:infinistone/app/shared_prefs/token_shared_prefs.dart';
 import 'package:infinistone/features/auth/data/data_source/auth_data_source.dart';
 import 'package:infinistone/features/auth/domain/entity/auth_entity.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRemoteDatasource implements IAuthDataSource {
   final Dio _dio;
@@ -91,6 +92,11 @@ class AuthRemoteDatasource implements IAuthDataSource {
         if (response.data is Map<String, dynamic>) {
           final str = response.data['token'];
           final cred = response.data['user'];
+          final userId = cred['_id']; // Assuming the user ID is stored in '_id'
+
+          // Save userId to shared preferences
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('userId', userId);
           print("CRED::: ${response.data}");
 
           if (cred != null) {

@@ -1,9 +1,10 @@
 import 'dart:io';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinistone/features/home/domain/use_case/create_bookings_usecase.dart';
+import 'package:infinistone/features/home/presentation/view_model/bookings_bloc.dart';
 import 'package:infinistone/features/shop/domain/entity/item_entity.dart';
 import 'package:infinistone/features/shop/domain/use_case/create_item_usecase.dart';
 import 'package:infinistone/features/shop/domain/use_case/delete_item_usecase.dart';
@@ -13,6 +14,7 @@ part 'shop_event.dart';
 part 'shop_state.dart';
 
 class ShopBloc extends Bloc<ShopEvent, ShopState> {
+  final BookingsBloc _bookingBloc;
   final CreateItemUseCase _createItemUseCase;
   final GetAllItemUseCase _getAllItemUseCase;
   final DeleteItemUsecase _deleteItemUsecase;
@@ -23,15 +25,25 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
     required GetAllItemUseCase getAllItemUseCase,
     required DeleteItemUsecase deleteItemUsecase,
     required CreateBookingUseCase createBookingUseCase,
+    required BookingsBloc bookingsBloc,
   })  : _createItemUseCase = createItemUseCase,
         _getAllItemUseCase = getAllItemUseCase,
         _deleteItemUsecase = deleteItemUsecase,
         _createBookingUseCase = createBookingUseCase,
+        _bookingBloc = bookingsBloc,
         super(ShopState.initial()) {
     on<LoadItems>(_onLoadItems);
     on<AddItem>(_onAddItem);
     on<DeleteItem>(_onDeleteItem);
     on<AddBooking>(_onAddBooking);
+    on<NavigatetoItem>((event, emit) {
+      Navigator.push(
+          event.context,
+          MaterialPageRoute(
+              builder: (context) => MultiBlocProvider(providers: [
+                    BlocProvider.value(value: _bookingBloc),
+                  ], child: event.destination)));
+    });
 
     // Call this event whenever the bloc is created to load the items
     add(LoadItems());

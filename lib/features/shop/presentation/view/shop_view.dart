@@ -2,6 +2,7 @@ import 'dart:convert'; // For base64 decoding
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinistone/app/di/di.dart';
 import 'package:infinistone/features/shop/domain/entity/item_entity.dart';
 import 'package:infinistone/features/shop/presentation/view/item_details_view.dart';
 import 'package:infinistone/features/shop/presentation/view_model/shop_bloc.dart';
@@ -70,7 +71,6 @@ class _ShopViewState extends State<ShopView> {
             ),
             const SizedBox(height: 20),
 
-            // Item Type Filter (using FilterChip)
             Wrap(
               spacing: 8.0,
               runSpacing: 8.0,
@@ -83,7 +83,7 @@ class _ShopViewState extends State<ShopView> {
                     });
                   },
                   label: Text(category,
-                      style: const TextStyle(color: Colors.white)),
+                      style: const TextStyle(color: Colors.black)),
                   backgroundColor: Colors.grey[700],
                   selectedColor: Colors.white,
                   labelStyle: const TextStyle(color: Colors.black),
@@ -170,11 +170,23 @@ class _ShopViewState extends State<ShopView> {
 
                       return GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) =>
+                          //         ProductDetailView(product: item),
+                          //   ),
+                          // );
+
+                          print('PRODUCT:: $item');
+                          Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  ProductDetailView(product: item),
+                              builder: (_) => BlocProvider(
+                                create: (context) => getIt<ShopBloc>(),
+                                child: ProductDetailView(
+                                  product: item,
+                                ),
+                              ),
                             ),
                           );
                         },

@@ -53,3 +53,27 @@ final class AddBooking extends ShopEvent {
   @override
   List<Object> get props => [customerId, productId, bookingDate];
 }
+
+final class NavigateItemDetailsScreen extends ShopEvent {
+  final BuildContext context;
+  final ItemEntity item;
+
+  const NavigateItemDetailsScreen({
+    required this.context,
+    required this.item,
+  });
+
+  @override
+  List<Object> get props => [context, item];
+}
+
+class NavigatetoItem extends ShopEvent {
+  final BuildContext context;
+  final Widget destination;
+  final ItemEntity product;
+
+  const NavigatetoItem(
+      {required this.context,
+      required this.destination,
+      required this.product});
+}

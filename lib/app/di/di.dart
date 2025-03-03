@@ -71,7 +71,6 @@ _initRegisterDependencies() {
     () => AuthLocalDataSource(getIt<HiveService>()),
   );
 
-  //  Remote Data Source course
   getIt.registerFactory<AuthRemoteDatasource>(
     () => AuthRemoteDatasource(
       getIt<Dio>(),
@@ -184,6 +183,7 @@ _initShopDependencies() async {
       getAllItemUseCase: getIt<GetAllItemUseCase>(),
       deleteItemUsecase: getIt<DeleteItemUsecase>(),
       createBookingUseCase: getIt<CreateBookingUseCase>(),
+      bookingsBloc: getIt<BookingsBloc>(),
     ),
   );
 }

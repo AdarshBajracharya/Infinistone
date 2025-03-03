@@ -53,10 +53,10 @@ class BookingApiModel extends Equatable {
   // To Json , write full code without generator
   Map<String, dynamic> toJson() {
     return {
-      '_id': bookingId,
-      'customer': customerId,
-      'product': productId,
-      'bookingDate': bookingDate,
+      // '_id': bookingId,
+      'customerId': customerId,
+      'productId': productId,
+      'bookingDate': bookingDate.toIso8601String(),
     };
   }
 

@@ -18,18 +18,18 @@ class LoadImage extends BookingsEvent {
   });
 }
 
-
-
 final class AddBooking extends BookingsEvent {
-
+  final BuildContext context;
+  final String? bookingId;
   final String customerId;
   final String productId;
   final DateTime bookingDate;
 
-  const AddBooking(this.customerId, this.productId, this.bookingDate);
+  const AddBooking(this.bookingId, this.context, this.customerId,
+      this.productId, this.bookingDate);
 
   @override
-  List<Object> get props => [customerId, productId, bookingDate];
+  List<Object> get props => [context, customerId, productId, bookingDate];
 }
 
 final class DeleteBooking extends BookingsEvent {
@@ -40,5 +40,3 @@ final class DeleteBooking extends BookingsEvent {
   @override
   List<Object> get props => [bookingId];
 }
-
-
