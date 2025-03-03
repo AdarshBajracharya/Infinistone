@@ -26,7 +26,15 @@ class AuthApiModel extends Equatable {
     required this.address,
     required this.password,
   });
-
+  const AuthApiModel.empty()
+      : id = '_empty.string',
+        fname = '_empty.string',
+        lname = '_empty.string',
+        image = '_empty.string',
+        email = '_empty.string',
+        phone = '_empty.string',
+        address = '_empty.string',
+        password = '_empty.string';
   factory AuthApiModel.fromJson(Map<String, dynamic> json) =>
       _$AuthApiModelFromJson(json);
 
@@ -36,8 +44,8 @@ class AuthApiModel extends Equatable {
   AuthEntity toEntity() {
     return AuthEntity(
       userId: id,
-      fName: fname,
-      lName: lname,
+      fname: fname,
+      lname: lname,
       email: email,
       phone: phone,
       address: address,
@@ -48,8 +56,8 @@ class AuthApiModel extends Equatable {
   // From Entity
   factory AuthApiModel.fromEntity(AuthEntity entity) {
     return AuthApiModel(
-      fname: entity.fName,
-      lname: entity.lName,
+      fname: entity.fname,
+      lname: entity.lname,
       image: entity.image,
       email: entity.email,
       phone: entity.phone,

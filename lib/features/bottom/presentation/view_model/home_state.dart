@@ -2,7 +2,10 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinistone/app/di/di.dart';
+import 'package:infinistone/features/auth/presentation/view/profile_view.dart';
+import 'package:infinistone/features/auth/presentation/view_model/profile/profile_bloc.dart';
 import 'package:infinistone/features/home/presentation/view/dashboard_view.dart';
+import 'package:infinistone/features/home/presentation/view_model/bookings_bloc.dart';
 import 'package:infinistone/features/shop/presentation/view/shop_view.dart';
 import 'package:infinistone/features/shop/presentation/view_model/shop_bloc.dart';
 import 'package:infinistone/features/visualizer/presentation/view/visualizer_view.dart';
@@ -21,14 +24,18 @@ class HomeState extends Equatable {
     return HomeState(
       selectedIndex: 0,
       views: [
-        const DashboardView(),
+        BlocProvider(
+          create: (context) => getIt<BookingsBloc>(),
+          child: const BookingsPage(),
+        ),
         BlocProvider(
           create: (context) => getIt<ShopBloc>(),
           child: const ShopView(),
         ),
         const Simple3DRoom(),
-        const Center(
-          child: Text('Account'),
+        BlocProvider(
+          create: (context) => getIt<ProfileBloc>(),
+          child: const ProfilePage(),
         ),
       ],
     );

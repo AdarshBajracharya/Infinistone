@@ -18,6 +18,7 @@ class _ShopViewState extends State<ShopView> {
   String _searchQuery = '';
   double _minPrice = 0;
   double _maxPrice = 1000;
+  String _selectedCategory = 'All'; // Default category
 
   // Function to check if the base64 string is valid
   bool isValidBase64(String base64String) {
@@ -32,8 +33,16 @@ class _ShopViewState extends State<ShopView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
+      appBar: AppBar(
+        title: const Text('Shop',
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+        backgroundColor: Colors.black,
+        elevation: 4,
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      body: Container(
+        color: Colors.black,
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -46,21 +55,50 @@ class _ShopViewState extends State<ShopView> {
                 });
               },
               decoration: InputDecoration(
-                labelText: 'Search',
-                hintText: 'Search items...',
-                prefixIcon: const Icon(Icons.search),
+                labelText: 'Search Items',
+                hintText: 'Search by name...',
+                prefixIcon: const Icon(Icons.search, color: Colors.white),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: const BorderSide(color: Colors.white),
                 ),
+                filled: true,
+                fillColor: Colors.grey[800],
+                labelStyle: const TextStyle(color: Colors.white),
+                hintStyle: const TextStyle(color: Colors.white70),
               ),
             ),
             const SizedBox(height: 20),
 
-            // Filter - Price Range Slider
+            // Item Type Filter (using FilterChip)
+            Wrap(
+              spacing: 8.0,
+              runSpacing: 8.0,
+              children: ['All', 'Marble', 'Tile', 'Granite'].map((category) {
+                return FilterChip(
+                  selected: _selectedCategory == category,
+                  onSelected: (selected) {
+                    setState(() {
+                      _selectedCategory = selected ? category : 'All';
+                    });
+                  },
+                  label: Text(category,
+                      style: const TextStyle(color: Colors.white)),
+                  backgroundColor: Colors.grey[700],
+                  selectedColor: Colors.white,
+                  labelStyle: const TextStyle(color: Colors.black),
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 20),
+
+            // Price Range Slider
             Row(
               children: [
                 Text(
-                    'Price: \$${_minPrice.toStringAsFixed(2)} - \$${_maxPrice.toStringAsFixed(2)}'),
+                    'Price: \$${_minPrice.toStringAsFixed(2)} - \$${_maxPrice.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w600)),
                 Expanded(
                   child: RangeSlider(
                     values: RangeValues(_minPrice, _maxPrice),
@@ -92,21 +130,30 @@ class _ShopViewState extends State<ShopView> {
                   }
 
                   if (state.error != null) {
-                    return Center(child: Text("Error: ${state.error}"));
+                    return Center(
+                        child: Text("Error: ${state.error}",
+                            style: const TextStyle(color: Colors.white)));
                   }
 
                   if (state.items.isEmpty) {
-                    return const Center(child: Text("No items available"));
+                    return const Center(
+                        child: Text("No items available",
+                            style: TextStyle(color: Colors.white)));
                   }
 
-                  // Filter items based on search query and price range
+                  // Filter items based on search query, price range, and selected category
                   List<ItemEntity> filteredItems = state.items.where((item) {
                     final itemNameMatch = item.itemName
                         .toLowerCase()
                         .contains(_searchQuery.toLowerCase());
                     final itemPriceMatch = item.itemPrice >= _minPrice &&
                         item.itemPrice <= _maxPrice;
-                    return itemNameMatch && itemPriceMatch;
+
+                    // Match itemType if a category is selected other than 'All'
+                    final itemTypeMatch = _selectedCategory == 'All' ||
+                        item.itemType == _selectedCategory;
+
+                    return itemNameMatch && itemPriceMatch && itemTypeMatch;
                   }).toList();
 
                   return ListView.builder(
@@ -137,7 +184,9 @@ class _ShopViewState extends State<ShopView> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          elevation: 5,
+                          elevation: 10,
+                          shadowColor: Colors.black.withOpacity(0.3),
+                          color: Colors.grey[850],
                           child: Padding(
                             padding: const EdgeInsets.all(10),
                             child: ListTile(
@@ -157,10 +206,11 @@ class _ShopViewState extends State<ShopView> {
                                   : const Icon(Icons.image_not_supported,
                                       size: 50,
                                       color: Colors
-                                          .grey), // Placeholder if no valid image
+                                          .white), // Placeholder if no valid image
                               title: Text(
                                 item.itemName,
                                 style: const TextStyle(
+                                  color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
                                 ),
@@ -168,19 +218,10 @@ class _ShopViewState extends State<ShopView> {
                               subtitle: Text(
                                 "Price: \$${item.itemPrice.toString()}",
                                 style: const TextStyle(
-                                  color: Colors.green,
+                                  color: Colors.greenAccent,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              // trailing: IconButton(
-                              //   icon:
-                              //       const Icon(Icons.delete, color: Colors.red),
-                              //   onPressed: () {
-                              //     context
-                              //         .read<ShopBloc>()
-                              //         .add(DeleteItem(item.itemId ?? ''));
-                              //   },
-                              // ),
                             ),
                           ),
                         ),

@@ -11,9 +11,9 @@ class AuthHiveModel extends Equatable {
   @HiveField(0)
   final String? userId;
   @HiveField(1)
-  final String fName;
+  final String fname;
   @HiveField(2)
-  final String lName;
+  final String lname;
   @HiveField(3)
   final String email;
   @HiveField(4)
@@ -21,12 +21,12 @@ class AuthHiveModel extends Equatable {
   @HiveField(5)
   final String address;
   @HiveField(6)
-  final String password;
+  final String? password;
 
   AuthHiveModel({
     String? userId,
-    required this.fName,
-    required this.lName,
+    required this.fname,
+    required this.lname,
     required this.email,
     required this.phone,
     required this.address,
@@ -37,8 +37,8 @@ class AuthHiveModel extends Equatable {
   // Initial Constructor
   const AuthHiveModel.initial()
       : userId = '',
-        fName = '',
-        lName = '',
+        fname = '',
+        lname = '',
         email = '',
         phone = '',
         address = '',
@@ -48,8 +48,8 @@ class AuthHiveModel extends Equatable {
   factory AuthHiveModel.fromEntity(AuthEntity entity) {
     return AuthHiveModel(
       userId: entity.userId,
-      fName: entity.fName,
-      lName: entity.lName,
+      fname: entity.fname,
+      lname: entity.lname,
       email: entity.email,
       phone: entity.phone,
       address: entity.address,
@@ -62,8 +62,8 @@ class AuthHiveModel extends Equatable {
   AuthEntity toEntity() {
     return AuthEntity(
       userId: userId,
-      fName: fName,
-      lName: lName,
+      fname: fname,
+      lname: lname,
       email: email,
       phone: phone,
       address: address,
@@ -74,5 +74,5 @@ class AuthHiveModel extends Equatable {
 
   @override
   List<Object?> get props =>
-      [userId, fName, lName, email, phone, address, password];
+      [userId, fname, lname, email, phone, address, password];
 }

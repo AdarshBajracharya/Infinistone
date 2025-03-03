@@ -17,7 +17,7 @@ class BookingRemoteRepository implements IBookingRepository {
     } catch (e) {
       return Left(
         ApiFailure(
-          message: e.toString(),
+          message: ' REMOTE REPO ${e.toString()}',
         ),
       );
     }

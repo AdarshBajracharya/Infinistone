@@ -6,8 +6,8 @@ import 'package:infinistone/features/auth/domain/entity/auth_entity.dart';
 import 'package:infinistone/features/auth/domain/repository/auth_repository.dart';
 
 class RegisterUserParams extends Equatable {
-  final String fName;
-  final String lName;
+  final String fname;
+  final String lname;
   final String email;
   final String phone;
   final String address;
@@ -15,8 +15,8 @@ class RegisterUserParams extends Equatable {
   final String password;
 
   const RegisterUserParams({
-    required this.fName,
-    required this.lName,
+    required this.fname,
+    required this.lname,
     required this.email,
     required this.phone,
     required this.address,
@@ -26,8 +26,8 @@ class RegisterUserParams extends Equatable {
 
   //intial constructor
   const RegisterUserParams.initial({
-    required this.fName,
-    required this.lName,
+    required this.fname,
+    required this.lname,
     required this.email,
     required this.phone,
     required this.address,
@@ -37,7 +37,7 @@ class RegisterUserParams extends Equatable {
 
   @override
   List<Object?> get props =>
-      [fName, lName, email, phone, address, image, password];
+      [fname, lname, email, phone, address, image, password];
 }
 
 class RegisterUseCase implements UsecaseWithParams<void, RegisterUserParams> {
@@ -48,8 +48,8 @@ class RegisterUseCase implements UsecaseWithParams<void, RegisterUserParams> {
   @override
   Future<Either<Failure, void>> call(RegisterUserParams params) {
     final authEntity = AuthEntity(
-      fName: params.fName,
-      lName: params.lName,
+      fname: params.fname,
+      lname: params.lname,
       email: params.email,
       phone: params.phone,
       address: params.address,
