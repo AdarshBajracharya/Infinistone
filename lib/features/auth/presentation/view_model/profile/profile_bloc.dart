@@ -57,12 +57,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     });
   }
 
-  // final userId = await _tokenHelper.getUserIdFromToken();
-  // if (userId == null) {
-  //   emit(const ProfileError("Client id not found"));
-  //   return;
-  // }
-
   Future<void> loadClient() async {
     emit(state.copyWith(isLoading: true));
 
