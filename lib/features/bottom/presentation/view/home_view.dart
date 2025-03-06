@@ -1,13 +1,49 @@
+import 'dart:math'; // To use sqrt for magnitude calculation
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinistone/core/common/snackbar/my_snackbar.dart';
 import 'package:infinistone/features/bottom/presentation/view_model/home_cubit.dart';
 import 'package:infinistone/features/bottom/presentation/view_model/home_state.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
+  @override
+  _HomeViewState createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
   final bool _isDarkTheme = false;
+  final double _shakeThreshold = 15.0; 
+  final List<double> _accelerometerValues = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // Listen for user accelerometer changes
+    userAccelerometerEvents.listen((UserAccelerometerEvent event) {
+      // Calculate the magnitude of the acceleration
+      double magnitude =
+          sqrt(pow(event.x, 2) + pow(event.y, 2) + pow(event.z, 2));
+
+      // Check if the magnitude exceeds the shake threshold
+      if (magnitude > _shakeThreshold) {
+        _onShake();
+      }
+    });
+  }
+
+  void _onShake() {
+    // Handle the logout on shake
+    showMySnackBar(
+      context: context,
+      message: 'Logging out...',
+      color: Colors.red,
+    );
+    context.read<HomeCubit>().logout(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +51,10 @@ class HomeView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Infinistone', style: TextStyle(color: Colors.white)),
         centerTitle: true,
-        backgroundColor: Colors.black, // Black app bar
+        backgroundColor: Colors.black,
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout, color: Colors.white), // White icon
+            icon: const Icon(Icons.logout, color: Colors.white),
             onPressed: () {
               showMySnackBar(
                 context: context,
@@ -32,8 +68,7 @@ class HomeView extends StatelessWidget {
       ),
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
-          return state.views
-              .elementAt(state.selectedIndex); // Keep the inside as is
+          return state.views.elementAt(state.selectedIndex);
         },
       ),
       bottomNavigationBar: BlocBuilder<HomeCubit, HomeState>(
@@ -57,11 +92,10 @@ class HomeView extends StatelessWidget {
                 label: 'Account',
               ),
             ],
-            backgroundColor:
-                Colors.black, // Black background for Bottom Navigation Bar
+            backgroundColor: Colors.black,
             currentIndex: state.selectedIndex,
-            selectedItemColor: Colors.black, // White for selected item
-            unselectedItemColor: Colors.grey, // Grey for unselected items
+            selectedItemColor: Colors.black,
+            unselectedItemColor: Colors.grey,
             onTap: (index) {
               context.read<HomeCubit>().onTabTapped(index);
             },

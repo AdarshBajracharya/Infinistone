@@ -23,7 +23,6 @@ class _WallAndFloorVisualizerState extends State<WallAndFloorVisualizer> {
   double _scale = 1.0;
   double _rotationX = 0.0;
   double _rotationY = 0.0;
-  final Offset _position = Offset.zero;
 
   Future<void> _pickImage(bool isWall) async {
     final pickedFile =
@@ -55,11 +54,10 @@ class _WallAndFloorVisualizerState extends State<WallAndFloorVisualizer> {
           child: Container(
             alignment: Alignment.center,
             width: 400,
-            height: 400,
+            height: 600, // Increase height to accommodate both wall and floor
             child: Transform(
               alignment: Alignment.center,
               transform: Matrix4.identity()
-                ..translate(_position.dx, _position.dy)
                 ..scale(_scale)
                 ..rotateX(_rotationX)
                 ..rotateY(_rotationY),
@@ -87,7 +85,8 @@ class _WallAndFloorVisualizerState extends State<WallAndFloorVisualizer> {
                           : null,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(
+                      height: 0), // Remove space between wall and floor
                   // Floor
                   GestureDetector(
                     onTap: () => _pickImage(false),
