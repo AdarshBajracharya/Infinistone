@@ -32,7 +32,7 @@ class HomeState extends Equatable {
           create: (context) => getIt<ShopBloc>(),
           child: const ShopView(),
         ),
-        const Simple3DRoom(),
+        const WallAndFloorVisualizer(),
         BlocProvider(
           create: (context) => getIt<ProfileBloc>(),
           child: const ProfilePage(),

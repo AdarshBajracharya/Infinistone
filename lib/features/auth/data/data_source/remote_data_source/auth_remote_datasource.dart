@@ -84,6 +84,7 @@ class AuthRemoteDatasource implements IAuthDataSource {
         },
       );
 
+
       // Debugging: Print the raw response
       print("Raw API Response: ${response.data}");
 
@@ -92,7 +93,7 @@ class AuthRemoteDatasource implements IAuthDataSource {
         if (response.data is Map<String, dynamic>) {
           final str = response.data['token'];
           final cred = response.data['user'];
-          final userId = cred['_id']; // Assuming the user ID is stored in '_id'
+          final userId = cred['_id'];
 
           // Save userId to shared preferences
           final prefs = await SharedPreferences.getInstance();
@@ -101,6 +102,7 @@ class AuthRemoteDatasource implements IAuthDataSource {
 
           if (cred != null) {
             userIdSharedPrefs.setUser(cred);
+            userIdSharedPrefs.saveUserId(userId);
             print("USER SAVED:::: $cred");
           } else {
             print("WARNING: 'cred' is null in API response.");

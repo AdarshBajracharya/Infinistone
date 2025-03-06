@@ -1,85 +1,122 @@
-import 'dart:math';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
-class Simple3DRoom extends StatefulWidget {
-  const Simple3DRoom({super.key});
-
-  @override
-  _Simple3DRoomState createState() => _Simple3DRoomState();
+void main() {
+  runApp(const MaterialApp(
+    home: WallAndFloorVisualizer(),
+    debugShowCheckedModeBanner: false,
+  ));
 }
 
-class _Simple3DRoomState extends State<Simple3DRoom> {
-  double _rotationX = 0;
-  double _rotationY = 0;
-  double _startX = 0;
-  double _startY = 0;
+class WallAndFloorVisualizer extends StatefulWidget {
+  const WallAndFloorVisualizer({super.key});
 
-  void _updateRotation(double deltaX, double deltaY) {
-    setState(() {
-      _rotationX = (_rotationX + deltaY * 0.01).clamp(-pi / 4, pi / 4);
-      _rotationY = (_rotationY + deltaX * 0.01).clamp(-pi / 4, pi / 4);
-    });
+  @override
+  _WallAndFloorVisualizerState createState() => _WallAndFloorVisualizerState();
+}
+
+class _WallAndFloorVisualizerState extends State<WallAndFloorVisualizer> {
+  File? _wallImage;
+  File? _floorImage;
+  double _scale = 1.0;
+  double _rotationX = 0.0;
+  double _rotationY = 0.0;
+  final Offset _position = Offset.zero;
+
+  Future<void> _pickImage(bool isWall) async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        if (isWall) {
+          _wallImage = File(pickedFile.path);
+        } else {
+          _floorImage = File(pickedFile.path);
+        }
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('3D Room')),
-      body: GestureDetector(
-        onPanUpdate: (details) {
-          _updateRotation(
-            details.localPosition.dx - _startX,
-            details.localPosition.dy - _startY,
-          );
-          _startX = details.localPosition.dx;
-          _startY = details.localPosition.dy;
-        },
-        onPanStart: (details) {
-          _startX = details.localPosition.dx;
-          _startY = details.localPosition.dy;
-        },
-        child: Center(
-          child: Transform(
+      appBar: AppBar(title: const Text("3D Room Visualizer")),
+      body: Center(
+        child: GestureDetector(
+          onScaleUpdate: (details) {
+            setState(() {
+              _scale = details.scale.clamp(0.5, 2.0);
+              _rotationX += details.focalPointDelta.dy * 0.01;
+              _rotationY += details.focalPointDelta.dx * 0.01;
+            });
+          },
+          child: Container(
             alignment: Alignment.center,
-            transform: Matrix4.identity()
-              ..setEntry(3, 2, 0.0015) // Perspective
-              ..rotateX(_rotationX)
-              ..rotateY(_rotationY),
-            child: Stack(
+            width: 400,
+            height: 400,
+            child: Transform(
               alignment: Alignment.center,
-              children: [
-                _buildWall(Colors.brown[300]!, 200, 200, 0, 100, 0), // Floor
-                _buildWall(Colors.brown[400]!, 200, 200, 0, -100, 0), // Ceiling
-                _buildWall(Colors.blue[300]!, 200, 200, -100, 0, 0,
-                    rotateY: pi / 2), // Left Wall
-                _buildWall(Colors.blue[500]!, 200, 200, 100, 0, 0,
-                    rotateY: pi / 2), // Right Wall
-                _buildWall(
-                    Colors.green[300]!, 200, 200, 0, 0, -100), // Back Wall
-              ],
+              transform: Matrix4.identity()
+                ..translate(_position.dx, _position.dy)
+                ..scale(_scale)
+                ..rotateX(_rotationX)
+                ..rotateY(_rotationY),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Wall
+                  GestureDetector(
+                    onTap: () => _pickImage(true),
+                    child: Container(
+                      width: 300,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        image: _wallImage != null
+                            ? DecorationImage(
+                                image: FileImage(_wallImage!),
+                                fit: BoxFit.cover)
+                            : null,
+                        color: Colors.grey[300],
+                        border: Border.all(color: Colors.black),
+                      ),
+                      child: _wallImage == null
+                          ? const Center(
+                              child: Text("Tap to select wall texture"))
+                          : null,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  // Floor
+                  GestureDetector(
+                    onTap: () => _pickImage(false),
+                    child: Transform(
+                      alignment: Alignment.topCenter,
+                      transform: Matrix4.identity()..rotateX(-1.1),
+                      child: Container(
+                        width: 300,
+                        height: 180,
+                        decoration: BoxDecoration(
+                          image: _floorImage != null
+                              ? DecorationImage(
+                                  image: FileImage(_floorImage!),
+                                  fit: BoxFit.cover)
+                              : null,
+                          color: Colors.brown[300],
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: _floorImage == null
+                            ? const Center(
+                                child: Text("Tap to select floor texture"))
+                            : null,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildWall(
-      Color color, double width, double height, double x, double y, double z,
-      {double rotateY = 0, double rotateX = 0}) {
-    return Transform(
-      alignment: Alignment.center,
-      transform: Matrix4.identity()
-        ..translate(x, y, z)
-        ..rotateY(rotateY)
-        ..rotateX(rotateX),
-      child: Container(
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-          color: color,
-          border: Border.all(color: Colors.black, width: 1),
         ),
       ),
     );

@@ -24,4 +24,5 @@ class ApiEndpoints {
   static const String createBooking = "booking/booking";
   static const String getAllBookings = "booking/bookings";
   static const String deleteBooking = "booking/booking/";
+  static const String getBookingsById = "/bookings/customer/";
 }

@@ -55,9 +55,11 @@ class BookingsPage extends StatelessWidget {
           }
 
           // Sort bookings by date (most recent first)
-          final sortedBookings = state.bookings.toList()
+          final sBookings = state.bookings.toList()
             ..sort((a, b) => b.bookingDate.compareTo(a.bookingDate));
-
+          print('sortedBookings: $sBookings');
+          // sbookings where userId == currentUserId
+          final sortedBookings = sBookings;
           // Display bookings in a beautiful card layout
           return ListView.builder(
             itemCount: sortedBookings.length,

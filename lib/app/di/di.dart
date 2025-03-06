@@ -196,9 +196,10 @@ _initBookingDependencies() async {
   getIt.registerLazySingleton<BookingRemoteDataSource>(
     () => BookingRemoteDataSource(
       getIt<Dio>(),
+      getIt<TokenSharedPrefs>(),
     ),
   );
-
+ 
   // =========================== Repository ===========================
 
   // getIt.registerLazySingleton<ItemLocalRepository>(() => BatchLocalRepository(
